@@ -1,0 +1,124 @@
+<html ng-app="todoApp">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Todo Application Demo</title>
+<link href="css/style.css" rel="stylesheet" type="text/css"></link>
+<link href="css/css/font-awesome.css" rel="stylesheet" type="text/css"></link>
+<!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'> -->
+<script data-require="angular.js@*" data-semver="1.2.13"
+	src="http://code.angularjs.org/1.2.13/angular.js"></script>
+<script data-require="angular-animate@*" data-semver="1.2.13"
+	src="http://code.angularjs.org/1.2.13/angular-animate.js"></script>
+<script type="text/javascript" src="./js/app.js"></script>
+</head>
+<style>
+.panel-heading-controls {
+	margin-top: -26px !important;
+}
+
+.task {
+	background: white !important;
+}
+
+.task .action-checkbox {
+	margin-right: 52px !important;
+}
+</style>
+<body>
+
+	<div ng-controller="todoController">
+		<h2>Todo Application Demo</h2>
+		<div id="task-panel" class="" ng-show="toggle">
+			<div class="panel-heading">
+				<div class="panel-heading-controls">
+					<button ng-click="toggle = !toggle" class="btn-panel">Add
+						Task</button>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="task" ng-repeat="task in tasks">
+					<span ng-if="task.taskPriority=='HIGH'"
+						class="priority priority-red"> {{task.taskPriority}} </span> <span
+						ng-if="task.taskPriority=='MEDIUM'"
+						class="priority priority-yellow"> {{task.taskPriority}} </span> <span
+						ng-if="task.taskPriority=='LOW'" class="priority priority-green">
+						{{task.taskPriority}} </span>
+					<div class="action-checkbox">
+
+						<button ng-click="deleteTasks(task.taskId)" class="">Delete
+							Task</button>
+
+					</div>
+					<div class="action-checkbox">
+						<input id="{{task.taskId}}" type="checkbox"
+							value="{{task.taskId}}"
+							ng-checked="selection.indexOf(task.taskId) > -1"
+							ng-click="changeStats(task.taskId, task.taskStatus )" /> <label
+							for="{{task.taskId}}"></label>
+					</div>
+
+
+					<div ng-if="task.taskStatus=='COMPLETED'">
+						<a href="#" class="checkedClass"> {{task.taskName}} <span
+							class="action-status">{{task.taskStatus}}</span>
+						</a>
+					</div>
+					<div ng-if="task.taskStatus=='ACTIVE'">
+						<a href="#" class="uncheckedClass"> {{task.taskName}} <span
+							class="action-status">{{task.taskStatus}}</span>
+						</a>
+					</div>
+					<div ng-if="task.taskStatus=='PENDING'">
+						<a href="#" class="uncheckedClass"> {{task.taskName}} <span
+							class="action-status">{{task.taskStatus}}</span>
+						</a>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+		<div id="add-task-panel" class="" ng-hide="toggle">
+			<div class="panel-heading">
+				<span class="panel-title">Add Task</span>
+				<div class="panel-heading-controls">
+					<button ng-click="toggle = !toggle" class="btn-panel">Show
+						All Tasks</button>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="task">
+					<table class="add-task">
+						<tr>
+							<td>Todo Task Name:</td>
+							<td><input type="text" ng-model="name" /></td>
+						</tr>
+						<tr>
+							<td>Todo Task Description:</td>
+							<td><input type="text" ng-model="desc" /></td>
+						</tr>
+						<tr>
+							<td>Todo Task Status:</td>
+							<td><select ng-model="status"
+								ng-options="status as status for status in statuses">
+									<option value="">-- Select --</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td>Todo Task Priority:</td>
+							<td><select ng-model="priority"
+								ng-options="priority as priority for priority in priorities">
+									<option value="">-- Select --</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td><br />
+							<button ng-click="addTask()" class="">Add New Task</button></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
